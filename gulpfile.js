@@ -1,56 +1,66 @@
-// Requis
-var gulpfile = require('gulp');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
+const rename = require('gulp-rename');
+const autoprefixer = require('gulp-autoprefixer');
+const cleancss = require('gulp-clean-css');
+const imagemin = require('gulp-imagemin');
+const plumber = require('gulp-plumber');
 
-// Include plugins
-var plugins = require('gulp-load-plugins')(); // tous les plugins de package.json
+/*
+--TOP LEVEL FUNCTIONS
+gulp.task
+gulp.src
+gulp.dest
+gulp.watch
+*/
 
-// Variables de chemins
-var source = 'src/'; // dossier de travail
-var destination = 'assets/'; // dossier à livrer
-const jsSource = 'src/scripts/',
-    jsDestination = 'assets/scripts/'
-
-gulpfile.task('jsMinifier', function(done) {
-    gulpfile.src(jsSource+"*.js") // path to your files
-        .pipe(plugins.concat("main.js"))
-        .pipe(plugins.minify({
-            ext:{
-                src:'-debug.js',
-                min:'.min.js'
+gulp.task('scripts', () => {
+    gulp.src('src/scripts/**/*.js')
+        .pipe(plumber({
+            errorHandler: function (error) {
+                console.log(error.message);
+                this.emit('end');
             }
         }))
-        .pipe(gulpfile.dest(jsDestination));
-    done()
+        .pipe(babel())
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/js'));
 });
 
-gulpfile.task('jsLint', function(done) {
-    gulpfile.src(jsSource+"/**/*.js") // path to your files
-        .pipe(plugins.jshint())
-        .pipe(plugins.jshint.reporter()); // Dump results
-    done()
-})
-
-gulpfile.task('sass', function() {
-    return gulpfile.src(source + 'scss/main.scss')
-        .pipe(plugins.sass().on('error', plugins.sass.logError))
-        .pipe(plugins.autoprefixer())
-        .pipe(gulpfile.dest(destination + 'styles/'))
-});
-
-gulpfile.task('cssMinfier', function() {
-    return gulpfile.src(destination + 'styles/main.css')
-        .pipe(plugins.csso())
-        .pipe(plugins.rename({
-            'suffix': '.min'
+gulp.task('styles', () => {
+    gulp.src('src/scss/*.scss')
+        .pipe(plumber({
+            errorHandler: function (error) {
+                console.log(error.message);
+                this.emit('end');
+            }
         }))
-        .pipe(gulpfile.dest(destination + 'styles/'))
+        .pipe(sass())
+        .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
+        .pipe(gulp.dest('dist/css'))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(cleancss())
+        .pipe(gulp.dest('dist/css'));
 });
 
-gulpfile.task('js', gulpfile.series('jsLint', 'jsMinifier'))
-gulpfile.task('css', gulpfile.series('sass', 'cssMinfier'))
-gulpfile.task('watch', function() {
-    gulpfile.watch('./src/scripts/*.js', gulpfile.series('js'))
-    gulpfile.watch('./src/scss/**/*.scss', gulpfile.series('css'))
+gulp.task('images', () => {
+    gulp.src('src/img/**/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('dist/img'));
 });
 
-gulpfile.task('default', gulpfile.series('js','css','watch'));
+gulp.task('run',['scripts','styles','images']);
+
+gulp.task('watch',() => {
+    gulp.watch('src/img/**/*',['images']);
+    gulp.watch('src/scss/**/*.scss',['styles']);
+    gulp.watch('src/scripts/**/*.js',['scripts']);
+});
+
+gulp.task('default',['watch']);

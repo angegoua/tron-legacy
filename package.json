@@ -1,23 +1,24 @@
 {
-  "name": "tron-legacy",
+  "name": "OhPapyDay",
   "version": "1.0.0",
-  "description": "An immersive Tron Legacy website for school project.",
+  "description": "",
   "main": "gulpfile.js",
-  "dependencies": {
-    "gulp-load-plugins": "^2.0.1"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/angegoua/tron-legacy.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/angegoua/tron-legacy/issues"
-  },
-  "homepage": "https://github.com/angegoua/tron-legacy#readme"
+  "dependencies": {
+    "@babel/core": "^7.2.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^5.0.3",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1"
+  }
 }
