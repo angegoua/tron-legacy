@@ -1,0 +1,23 @@
+{
+  "name": "tron-legacy",
+  "version": "1.0.0",
+  "description": "An immersive Tron Legacy website for school project.",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp-load-plugins": "^2.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angegoua/tron-legacy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angegoua/tron-legacy/issues"
+  },
+  "homepage": "https://github.com/angegoua/tron-legacy#readme"
+}
