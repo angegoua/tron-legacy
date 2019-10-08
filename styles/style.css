@@ -1,4 +1,5 @@
 body {
-  background-image: url(..images/home.png) }
+  background-image: url(../Images/HOME.png);
+background-size: cover; }
 
 /*# sourceMappingURL=style.css.map */
